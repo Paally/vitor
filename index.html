@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu amor</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      :root {
+        --papel: #faf6f2;
+        --preto: #171513;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+      body {
+        min-height: 100vh;
+        background: #e8e2de;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--preto);
+        font-family: 'Times New Roman', Georgia, serif;
+      }
+      .abertura {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: var(--papel);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.9s ease,
+          visibility 0.9s ease;
+        overflow: hidden;
+      }
+      .abertura.esconder {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .abertura-conteudo {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+      .abertura-conteudo h2 {
+        margin: 0 0 25px;
+        font-size: clamp(27px, 7vw, 42px);
+        font-weight: normal;
+      }
+      .botao {
+        padding: 10px 25px;
+        border: 1px solid #292522;
+        background: transparent;
+        color: #171513;
+        font:
+          15px 'Times New Roman',
+          Georgia,
+          serif;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+      .botao:hover {
+        background: #171513;
+        color: white;
+      }
+
+      .carta {
+        position: relative;
+        isolation: isolate;
+        width: min(92vw, 650px);
+        aspect-ratio: 362/480;
+        overflow: hidden;
+        background: var(--papel);
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s ease;
+      }
+      .carta.visivel {
+        opacity: 1;
+        transform: translateY(0);
+        animation: aparecerPapel 1s ease both;
+      }
+      @keyframes aparecerPapel {
+        0% {
+          opacity: 0;
+          transform: translateY(18px) scale(0.985);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .efeitos-fundo {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .luz {
+        position: absolute;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.42);
+        filter: blur(18px);
+        opacity: 0;
+        animation: luzPasseio 6s ease-in-out infinite;
+      }
+      .l1 {
+        left: 5%;
+        top: 12%;
+      }
+      .l2 {
+        left: 76%;
+        top: 20%;
+        animation-delay: 1.2s;
+      }
+      .l3 {
+        left: 18%;
+        top: 55%;
+        animation-delay: 2.5s;
+      }
+      .l4 {
+        left: 72%;
+        top: 62%;
+        animation-delay: 3.6s;
+      }
+      .l5 {
+        left: 42%;
+        top: 35%;
+        animation-delay: 1.8s;
+      }
+      @keyframes luzPasseio {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0.55) translate(0, 10px);
+        }
+        35% {
+          opacity: 0.2;
+        }
+        55% {
+          opacity: 0.36;
+          transform: scale(1.15) translate(12px, -12px);
+        }
+        75% {
+          opacity: 0.08;
+        }
+      }
+      .particula {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 7px 2px rgba(255, 255, 255, 0.85);
+        opacity: 0;
+        animation: cintilar 3s ease-in-out infinite;
+      }
+      .p1 {
+        left: 10%;
+        top: 25%;
+      }
+      .p2 {
+        left: 28%;
+        top: 12%;
+        animation-delay: 1.2s;
+      }
+      .p3 {
+        left: 52%;
+        top: 22%;
+        animation-delay: 2s;
+      }
+      .p4 {
+        left: 84%;
+        top: 40%;
+        animation-delay: 0.8s;
+      }
+      .p5 {
+        left: 30%;
+        top: 75%;
+        animation-delay: 1.8s;
+      }
+      .p6 {
+        left: 78%;
+        top: 76%;
+        animation-delay: 2.6s;
+      }
+      @keyframes cintilar {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0.2);
+        }
+        45%,
+        65% {
+          opacity: 0.8;
+          transform: scale(1);
+        }
+      }
+      .coracao-flutuante {
+        position: absolute;
+        bottom: -30px;
+        color: rgba(100, 20, 40, 0.7);
+        font:
+          15px Georgia,
+          serif;
+        opacity: 0;
+        animation: subirCoracao 8s linear infinite;
+        text-shadow: 0 0 7px rgba(255, 255, 255, 0.45);
+      }
+      .c1 {
+        left: 8%;
+      }
+      .c2 {
+        left: 24%;
+        animation-delay: 2.3s;
+        font-size: 11px;
+      }
+      .c3 {
+        left: 47%;
+        animation-delay: 4.5s;
+        font-size: 13px;
+      }
+      .c4 {
+        left: 67%;
+        animation-delay: 1.3s;
+        font-size: 18px;
+      }
+      .c5 {
+        left: 82%;
+        animation-delay: 3.5s;
+        font-size: 10px;
+      }
+      .c6 {
+        left: 92%;
+        animation-delay: 5.7s;
+        font-size: 14px;
+      }
+      @keyframes subirCoracao {
+        0% {
+          opacity: 0;
+          transform: translateY(0) translateX(0) rotate(-8deg) scale(0.7);
+        }
+        12% {
+          opacity: 0.55;
+        }
+        65% {
+          opacity: 0.28;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-620px) translateX(28px) rotate(15deg)
+            scale(1.15);
+        }
+      }
+
+      .fotos {
+        position: absolute;
+        width: 46%;
+        height: 31%;
+        top: 3.8%;
+        right: 6%;
+        z-index: 5;
+      }
+      .polaroid {
+        position: absolute;
+        width: 55%;
+        height: 80%;
+        padding: 1.8% 1.8% 12%;
+        background: #fdfdfd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+        cursor: default;
+        overflow: hidden;
+        transition:
+          transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.22s ease,
+          box-shadow 0.3s ease;
+      }
+      .polaroid img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(82%) contrast(0.94);
+      }
+      .polaroid.trocando {
+        opacity: 0;
+        transform: scale(0.92) rotate(0deg) !important;
+      }
+      .foto1 {
+        left: 0;
+        top: 0;
+        transform: rotate(-8deg);
+      }
+      .foto2 {
+        right: 0;
+        top: 17%;
+        transform: rotate(7deg);
+      }
+      .polaroid.flash {
+        animation: brilhoPolaroid 0.7s ease-out;
+      }
+      .polaroid::after {
+        content: '';
+        position: absolute;
+        z-index: 20;
+        top: -35%;
+        left: -80%;
+        width: 35%;
+        height: 170%;
+        pointer-events: none;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.95),
+          transparent
+        );
+        transform: rotate(18deg);
+        opacity: 0;
+      }
+      .polaroid.flash::after {
+        animation: flashPolaroid 0.7s ease-out;
+      }
+      @keyframes flashPolaroid {
+        0% {
+          opacity: 0;
+          transform: rotate(18deg) translateX(0);
+        }
+        25% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: rotate(18deg) translateX(430%);
+        }
+      }
+      @keyframes brilhoPolaroid {
+        0%,
+        100% {
+          filter: brightness(1);
+        }
+        25% {
+          filter: brightness(1.27);
+        }
+        60% {
+          filter: brightness(1.07);
+        }
+      }
+
+      .conteudo {
+        position: absolute;
+        left: 11%;
+        right: 11%;
+        top: 30.5%;
+        bottom: 7%;
+        z-index: 5;
+      }
+      h1 {
+        margin: 0 0 3.5%;
+        font-size: clamp(27px, 7.25vw, 47px);
+        line-height: 0.95;
+        font-weight: normal;
+        letter-spacing: -0.5px;
+      }
+      .texto {
+        min-height: 49%;
+        font-size: clamp(9px, 2.55vw, 16px);
+        line-height: 1.22;
+        white-space: pre-line;
+      }
+      .cursor {
+        display: inline-block;
+        width: 1px;
+        height: 1em;
+        background: var(--preto);
+        margin-left: 1px;
+        vertical-align: -0.1em;
+        animation: piscar 0.7s infinite;
+      }
+      @keyframes piscar {
+        0%,
+        45% {
+          opacity: 1;
+        }
+        46%,
+        100% {
+          opacity: 0;
+        }
+      }
+      .texto-finalizado {
+        animation: textoAssentando 0.5s ease;
+      }
+      @keyframes textoAssentando {
+        from {
+          opacity: 0.72;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .assinatura {
+        position: absolute;
+        left: 0;
+        bottom: 5.5%;
+        font-size: clamp(9px, 2.55vw, 16px);
+        line-height: 1;
+      }
+      .assinatura p {
+        margin: 0 0 16px;
+      }
+      .coracao {
+        position: absolute;
+        right: 9%;
+        bottom: 5.5%;
+        width: 11%;
+        aspect-ratio: 1/0.9;
+        transform: rotate(-8deg);
+        z-index: 5;
+      }
+      .coracao:before,
+      .coracao:after {
+        content: '';
+        position: absolute;
+        width: 45%;
+        height: 70%;
+        border: max(1px, 0.16vw) solid var(--preto);
+        border-radius: 50% 50% 0 0;
+      }
+      .coracao:before {
+        left: 24%;
+        top: 5%;
+        transform: rotate(-45deg);
+      }
+      .coracao:after {
+        left: 40%;
+        top: 5%;
+        transform: rotate(45deg);
+      }
+
+      .controle-musica {
+        position: absolute;
+        right: 5%;
+        bottom: 3%;
+        z-index: 30;
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(23, 21, 19, 0.35);
+        border-radius: 50%;
+        background: rgba(250, 246, 242, 0.9);
+        color: #171513;
+        cursor: pointer;
+        font:
+          14px Georgia,
+          serif;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.4s,
+          transform 0.25s;
+      }
+      .controle-musica.visivel {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .controle-musica:hover {
+        transform: scale(1.08);
+      }
+
+      .carta:after {
+        content: '';
+        position: absolute;
+        inset: -35%;
+        pointer-events: none;
+        background: linear-gradient(
+          115deg,
+          transparent 42%,
+          rgba(255, 255, 255, 0.3) 50%,
+          transparent 58%
+        );
+        transform: translateX(-100%);
+        animation: reflexoCarta 2s ease 1s both;
+        z-index: 10;
+      }
+      @keyframes reflexoCarta {
+        to {
+          transform: translateX(100%);
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          background: var(--papel);
+          align-items: flex-start;
+        }
+        .carta {
+          width: 100vw;
+          min-height: 100vh;
+          aspect-ratio: auto;
+        }
+        .fotos {
+          top: 3.8%;
+          right: 6%;
+          width: 46%;
+          height: 27%;
+        }
+        .conteudo {
+          top: 29%;
+          left: 11%;
+          right: 11%;
+          bottom: 6%;
+        }
+        h1 {
+          font-size: clamp(30px, 10vw, 40px);
+        }
+        .texto {
+          font-size: clamp(11px, 3.25vw, 14px);
+          line-height: 1.27;
+        }
+        .assinatura {
+          font-size: clamp(11px, 3.25vw, 14px);
+        }
+        .coracao {
+          width: 14%;
+          right: 8%;
+          bottom: 6%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="abertura" id="abertura">
+      <div class="abertura-conteudo">
+        <h2>Para o amor que a vida trouxe de volta...</h2>
+        <button class="botao" id="abrirCarta">Abrir Carta 💗</button>
+      </div>
+    </section>
+
+    <main class="carta" id="carta">
+      <div class="efeitos-fundo" aria-hidden="true">
+        <span class="luz l1"></span><span class="luz l2"></span
+        ><span class="luz l3"></span><span class="luz l4"></span
+        ><span class="luz l5"></span> <span class="particula p1"></span
+        ><span class="particula p2"></span><span class="particula p3"></span
+        ><span class="particula p4"></span><span class="particula p5"></span
+        ><span class="particula p6"></span>
+        <span class="coracao-flutuante c1">♡</span
+        ><span class="coracao-flutuante c2">♡</span
+        ><span class="coracao-flutuante c3">♥</span>
+        <span class="coracao-flutuante c4">♡</span
+        ><span class="coracao-flutuante c5">♥</span
+        ><span class="coracao-flutuante c6">♡</span>
+      </div>
+
+      <div class="fotos">
+        <div class="polaroid foto1" id="polaroid1">
+          <img id="foto1" src="fotos/foto1.jpg" alt="Foto 1" />
+        </div>
+        <div class="polaroid foto2" id="polaroid2">
+          <img id="foto2" src="fotos/foto2.jpg" alt="Foto 2" />
+        </div>
+      </div>
+
+      <section class="conteudo">
+        <h1>Minha Conchinha,</h1>
+        <div class="texto" id="texto"></div>
+      </section>
+
+      <div class="coracao"><span></span></div>
+
+      <button
+        class="controle-musica"
+        id="controleMusica"
+        aria-label="Pausar ou continuar música"
+      >
+        ♫
+      </button>
+      <!-- A música é opcional. Coloque seu arquivo em audio/musica.mp3 -->
+      <audio id="musica" preload="auto" loop>
+        <source src="audio/musica.mp3" type="audio/mpeg" />
+      </audio>
+    </main>
+
+    <script>
+      const textoCarta = `É engraçado pensar que nossa história começou muito antes de nós dois entendermos o que era amor.
+Fomos vizinhos de porta quando éramos pequenos, mas a vida fez você ir embora. Anos se passaram, crescemos, vivemos nossas próprias histórias e, quando eu tinha 17 e você 20, nossos caminhos se cruzaram outra vez.
+E parece que, dessa vez, a vida sabia exatamente o que estava fazendo.
+Desde o reencontro já existia algo entre nós, mas esperamos o nosso momento. Depois dos meus 18, aquilo que começou como um sentimento finalmente virou nós.
+Às vezes penso que você precisou morar ao meu lado, partir e voltar anos depois para me mostrar que algumas pessoas podem até sair do nosso caminho por um tempo, mas, quando realmente pertencem à nossa história, a vida encontra um jeito de colocá-las de volta.
+
+E entre tantas coincidências da vida, você continua sendo a minha favorita.
+
+Eu te amo
+
+Vitor.`
+
+      const fotos = [
+        'fotos/foto1.jpg',
+        'fotos/foto2.jpg',
+        'fotos/foto3.jpg',
+        'fotos/foto4.jpg',
+        'fotos/foto5.jpg',
+        'fotos/foto6.jpg',
+      ]
+
+      let fotosNaTela = [0, 1]
+      let disponiveis = [2, 3, 4, 5]
+      let lado = 0
+      let indiceTexto = 0
+      let slideshowIniciado = false
+
+      const abertura = document.getElementById('abertura')
+      const carta = document.getElementById('carta')
+      const texto = document.getElementById('texto')
+      const musica = document.getElementById('musica')
+      const controleMusica = document.getElementById('controleMusica')
+
+      function proximaFoto(posicao) {
+        if (disponiveis.length === 0) {
+          disponiveis = fotos
+            .map((_, i) => i)
+            .filter((i) => !fotosNaTela.includes(i))
+        }
+        const nova = disponiveis.shift()
+        const antiga = fotosNaTela[posicao]
+        fotosNaTela[posicao] = nova
+        if (!disponiveis.includes(antiga)) disponiveis.push(antiga)
+        return nova
+      }
+
+      function trocarFotoAutomatica(posicao) {
+        const polaroid = document.getElementById(
+          posicao === 0 ? 'polaroid1' : 'polaroid2',
+        )
+        const imagem = document.getElementById(
+          posicao === 0 ? 'foto1' : 'foto2',
+        )
+        const nova = proximaFoto(posicao)
+
+        polaroid.classList.add('trocando')
+        setTimeout(() => {
+          imagem.src = fotos[nova]
+          polaroid.classList.remove('trocando')
+          void polaroid.offsetWidth
+          polaroid.classList.add('flash')
+          setTimeout(() => polaroid.classList.remove('flash'), 750)
+        }, 250)
+      }
+
+      function iniciarSlideshow() {
+        if (slideshowIniciado) return
+        slideshowIniciado = true
+        setInterval(() => {
+          trocarFotoAutomatica(lado)
+          lado = lado === 0 ? 1 : 0
+        }, 3000)
+      }
+
+      function digitarTexto() {
+        if (indiceTexto < textoCarta.length) {
+          texto.innerHTML =
+            textoCarta.substring(0, indiceTexto + 1) +
+            '<span class="cursor"></span>'
+          const caractere = textoCarta[indiceTexto]
+          indiceTexto++
+          let pausa = 55
+          if (/[.!?]/.test(caractere)) pausa = 350
+          else if (/[,;:]/.test(caractere)) pausa = 170
+          else if (caractere === '\n') pausa = 280
+          setTimeout(digitarTexto, pausa)
+        } else {
+          texto.textContent = textoCarta
+          texto.classList.add('texto-finalizado')
+        }
+      }
+
+      function iniciarMusica() {
+        musica.volume = 0.65
+        musica
+          .play()
+          .then(() => {
+            controleMusica.classList.add('visivel')
+            controleMusica.textContent = 'Ⅱ'
+          })
+          .catch(() => {
+            // Se o arquivo ainda não existir ou o navegador impedir a reprodução,
+            // o projeto continua funcionando normalmente.
+            controleMusica.classList.add('visivel')
+          })
+      }
+
+      controleMusica.addEventListener('click', () => {
+        if (musica.paused) {
+          musica.play().then(() => (controleMusica.textContent = 'Ⅱ'))
+        } else {
+          musica.pause()
+          controleMusica.textContent = '♫'
+        }
+      })
+
+      document.getElementById('abrirCarta').addEventListener('click', () => {
+        abertura.classList.add('esconder')
+        carta.classList.add('visivel')
+
+        // O clique no botão é uma interação do usuário, permitindo o áudio
+        // nos navegadores que bloqueiam autoplay.
+        iniciarMusica()
+        iniciarSlideshow()
+        setTimeout(digitarTexto, 900)
+      })
+    </script>
+  </body>
+</html>
